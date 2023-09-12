@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <locale.h>
+//TODO: Incluir dedução do imposto de renda. (Salário * aliquota) - dedução
 
 int main(){
 	/* Escreva um programa que o usuário escolhe uma opção entre 2 (calcular salário líquido ou calcular salário bruto), 
