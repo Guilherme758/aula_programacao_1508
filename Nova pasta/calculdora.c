@@ -9,14 +9,20 @@ int main(){
 	float resultado;
 	char operacao;
 	
-	printf("Digite o primeiro valor: \n");
-	scanf("%d", &num1);
-	
-	printf("Digite o segundo valor: \n");
-	scanf("%d", &num2);
-	
 	printf("Digite a operação que será executada\n");
 	scanf("%c", &operacao);
+	
+	if(operacao == '@'){
+		printf("Digite o primeiro valor: \n");
+		scanf("%d", &num1);
+	}
+	else{
+		printf("Digite o primeiro valor: \n");
+		scanf("%d", &num1);
+		
+		printf("Digite o segundo valor: \n");
+		scanf("%d", &num2);	
+	}
 	
 	switch (operacao){
 		case '+':
@@ -36,17 +42,17 @@ int main(){
 				printf("Não é possível divisão por 0");
 			}
 			else{
-				resultado = num1 / num2;
+				resultado = (float)num1 / num2;
 				printf("O resultado da divisão é: %f", resultado);
 			}
 			break;
 		case '$':
 			resultado = pow(num1, num2);
-			printf("O resultado da exponenciação é: %d", resultado);
+			printf("O resultado da exponenciação é: %f", resultado);
 			break;
 		case '@':
-			resultado = sqrt(num1)
-			printf("O resultado da raiz é: %d", resultado);
+			resultado = sqrt(num1);
+			printf("O resultado da raiz é: %f", resultado);
 			break;
 		default:
 			printf("Opção inválida");
