@@ -2,18 +2,16 @@
 #include <locale.h>
 #include <math.h>
 
-int escreveLog(char conteudo[], char operacao, int num1, int num2, char log[]){
+int escreveLog(char conteudo[], char operacao, int num1, int num2, char log[], int resultado){
 	FILE *arquivo = fopen("log.txt", "r+");
 	fread(conteudo, sizeof(char), 100, arquivo);
-	int cont = 0;
+	int i, cont = 0;
 	
-	for(int i = 0; i < strlen(conteudo); i++){
-		if(conteudo[i] == "\\n"){
+	for(i = 0; i < strlen(conteudo); i++){
+		if(conteudo[i] == '.'){
 			cont++;
 		}	
 	}
-	
-	printf("%d", cont);
 	
 //	if (strlen(conteudo) == 0){
 //		snprintf(log, 1024*sizeof(char), "1. = %d %c %d\n", num1, operacao, num2);
@@ -24,7 +22,10 @@ int escreveLog(char conteudo[], char operacao, int num1, int num2, char log[]){
 //	    printf(log);
 //	}
 //	
-//	fclose(arquivo);
+	snprintf(log, 1024*sizeof(char), "%d. %d %c %d = %d\n", cont + 1, num1, operacao, num2, resultado);
+	printf(log);
+
+    fclose(arquivo);
 }
 
 int main(){
@@ -41,7 +42,7 @@ int main(){
 //	fwrite("OK", sizeof("OK"), 1, arquivo);
 //	fclose(arquivo);
 	
-	printf("Digite a operação que será executada\n");
+	printf("Digite a operaÃ§Ã£o que serÃ¡ executada\n");
 	scanf("%c", &operacao);
 	
 	if(operacao == '@'){
@@ -59,36 +60,41 @@ int main(){
 	switch (operacao){
 		case '+':
 			resultado = num1 + num2;
-			printf("O resultado da soma é: %f", resultado);
-			escreveLog(conteudo, operacao, num1, num2, log);
+			printf("O resultado da soma Ã©: %f\n", resultado);
+			escreveLog(conteudo, operacao, num1, num2, log, resultado);
 			break;
 		case '-':
 			resultado = num1 - num2;
-			printf("O resultado da subtração é: %f", resultado);
+			printf("O resultado da subtraÃ§Ã£o Ã©: %f\n", resultado);
+			escreveLog(conteudo, operacao, num1, num2, log, resultado);
 			break;
 		case '*':
 			resultado = num1 * num2;
-			printf("O resultado da multiplicação é: %f", resultado);
+			printf("O resultado da multiplicaÃ§Ã£o Ã©: %f\n", resultado);
+			escreveLog(conteudo, operacao, num1, num2, log, resultado);
 			break;
 		case '/':
 			if(num2 == 0){
-				printf("Não é possível divisão por 0");
+				printf("NÃ£o Ã© possÃ­vel divisÃ£o por 0");
 			}
 			else{
 				resultado = (float)num1 / num2;
-				printf("O resultado da divisão é: %f", resultado);
+				printf("O resultado da divisÃ£o Ã©: %f\n", resultado);
+				escreveLog(conteudo, operacao, num1, num2, log, resultado);
 			}
 			break;
 		case '$':
 			resultado = pow(num1, num2);
-			printf("O resultado da exponenciação é: %f", resultado);
+			printf("O resultado da exponenciaÃ§Ã£o Ã©: %f\n", resultado);
+			escreveLog(conteudo, '**', num1, num2, log, resultado);
 			break;
 		case '@':
 			resultado = sqrt(num1);
-			printf("O resultado da raiz é: %f", resultado);
+			printf("O resultado da raiz Ã©: %f\n", resultado);
+			escreveLog(conteudo, '#', num1, 0, log, resultado);
 			break;
 		default:
-			printf("Opção inválida");
+			printf("OpÃ§Ã£o invÃ¡lida");
 	}
 	
 }
