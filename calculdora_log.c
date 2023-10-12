@@ -4,7 +4,12 @@
 
 int escreveLog(char conteudo[], char operacao, int num1, int num2, char log[], int resultado){
 	FILE *arquivo = fopen("log.txt", "r+");
-	fread(conteudo, sizeof(char), 100, arquivo);
+	
+//	fseek(arquivo, 0, SEEK_END);
+//	printf("%d\n", ftell(arquivo));
+	
+    fread(conteudo, sizeof(char), 1000, arquivo);
+//    fgets(conteudo, 100000, arquivo);
 	int i, cont = 0;
 	
 	for(i = 0; i < strlen(conteudo); i++){
@@ -12,6 +17,10 @@ int escreveLog(char conteudo[], char operacao, int num1, int num2, char log[], i
 			cont++;
 		}	
 	}
+	
+	fclose(arquivo);
+	
+	fopen("log.txt", "a");
 	
 //	if (strlen(conteudo) == 0){
 //		snprintf(log, 1024*sizeof(char), "1. = %d %c %d\n", num1, operacao, num2);
@@ -22,10 +31,20 @@ int escreveLog(char conteudo[], char operacao, int num1, int num2, char log[], i
 //	    printf(log);
 //	}
 //	
-	snprintf(log, 1024*sizeof(char), "%d. %d %c %d = %d\n", cont + 1, num1, operacao, num2, resultado);
-	printf(log);
+	if(operacao == 'v'){
+		snprintf(log, 1024*sizeof(char), "%d. %c%d = %d\n", cont + 1, operacao, num1, resultado);
+		printf(log);
+	}
+	else{
+		snprintf(log, 1024*sizeof(char), "%d. %d %c %d = %d\n", cont + 1, num1, operacao, num2, resultado);
+		printf(log);
+	}
 
-    fclose(arquivo);
+//	fwrite(log, sizeof(log), 2, arquivo);
+
+    fputs(log, arquivo);
+	
+	fclose(arquivo);
 }
 
 int main(){
@@ -55,8 +74,7 @@ int main(){
 		
 		printf("Digite o segundo valor: \n");
 		scanf("%d", &num2);	
-	}
-	
+	}	
 	switch (operacao){
 		case '+':
 			resultado = num1 + num2;
@@ -86,12 +104,12 @@ int main(){
 		case '$':
 			resultado = pow(num1, num2);
 			printf("O resultado da exponenciação é: %f\n", resultado);
-			escreveLog(conteudo, '**', num1, num2, log, resultado);
+			escreveLog(conteudo, '^', num1, num2, log, resultado);
 			break;
 		case '@':
 			resultado = sqrt(num1);
 			printf("O resultado da raiz é: %f\n", resultado);
-			escreveLog(conteudo, '#', num1, 0, log, resultado);
+			escreveLog(conteudo, 'v', num1, 0, log, resultado);
 			break;
 		default:
 			printf("Opção inválida");
