@@ -5,7 +5,7 @@
 
 int sorteiaFace(){
     int faces[6] = {0, 0, 0, 0, 0, 0};
-	int i, j;
+    int i, j;
     
     for(i = 0; i < 1000000; i++){
         faces[rand() % 6] += 1;
