@@ -26,5 +26,5 @@ int main()
     
     resultado = calculaDistancia(xa, ya, xb, yb);
     
-    printf("A dist√¢ncia entre o ponto A (%.2f, %.2f) e o ponto B (%.2f, %.2f) √© de: %.2f", xa, ya, xb, yb, resultado);
+    printf("A dist‚ncia entre o ponto A (%.2f, %.2f) e o ponto B (%.2f, %.2f) È de: %.2f", xa, ya, xb, yb, resultado);
 }
