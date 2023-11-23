@@ -16,6 +16,10 @@ int montaTabuleiro(char tabuleiro[3][6], char posicoesJogador[9][3], int jogada,
 	coluna = posicoesJogador[jogada][1] - 48; // "Convertendo" ASCII para inteiro
 	coluna = coluna * 2;
 	
+	if(tabuleiro[linha][coluna] != '_' && tabuleiro[linha][coluna] != ' '){
+        return 0;
+    }
+
 	tabuleiro[linha][coluna] = jogador;
 	
 	for(cont = 0; cont < 3; cont++){
@@ -36,7 +40,7 @@ int validaJogada(char tabuleiro[3][6], char jogador){
 	}
 	
 	//Validação Horizontal
-	for(cont = 0; cont < 3; cont++){ // Nessa validação, as linhas variam e as colunas são fixas. Necessário desconsiderar _ e espaço da validação, pois eles podem se repetir Horizontalmente
+	for(cont = 0; cont < 3; cont++){ // Nessa validação, as linhas variam e as colunas são fixas. Necessário desconsiderar _ e espaço da validação, pois eles podem se repetir 3 vezes Horizontalmente
 		if((tabuleiro[cont][0] == tabuleiro[cont][2] && tabuleiro[cont][0] == tabuleiro[cont][4]) && (tabuleiro[cont][0] != '_' && tabuleiro[cont][0] != ' ')){
 			return 1;
 		}
@@ -51,7 +55,7 @@ int validaJogada(char tabuleiro[3][6], char jogador){
 }
 
 int main(){
-	int cont, jogoAcabou = 0;
+	int cont, jogoAcabou = 0, continuar = 0;
 	int jogadas, jogadasJogador1 = 0, jogadasJogador2 = 0;
 	char posicoesJogador1[9][3], posicoesJogador2[9][3];
 	char tabuleiro[3][6] = {"_|_|_\0", "_|_|_\0", " | | \0"};
@@ -62,28 +66,46 @@ int main(){
 	setlocale(LC_ALL, "Portuguese");
 
 	for(jogadas = 0; jogadas < 9; jogadas++){
+		continuar = 0;
+
 		if(jogadas % 2 == 0){
-			printf("Vez do jogador X: \n");
-			
-			gets(posicoesJogador1[jogadasJogador1]);
-			
-			montaTabuleiro(tabuleiro, posicoesJogador1, jogadasJogador1, 'X');
-			
+			do{
+				printf("Vez do jogador X: \n");
+				
+				gets(posicoesJogador1[jogadasJogador1]);
+
+				continuar = montaTabuleiro(tabuleiro, posicoesJogador1, jogadasJogador1, 'X');
+				
+				if(continuar == 0){
+					printf("Essa casa já está preenchida, tente novamente\n");
+				}
+			}while(continuar == 0);
+
 			jogoAcabou = validaJogada(tabuleiro, 'X');
 			
 			if(jogoAcabou == 1){
 				printf("O jogador X ganhou!!\n");
 				break;
 			}
+
+			if(jogoAcabou == 0 && jogadas == 8){
+				printf("Deu velha!!\n");
+			}
 			
 			jogadasJogador1++;
 		}
 		else{
-			printf("Vez do jogador O: \n");
-			
-			gets(posicoesJogador2[jogadasJogador2]);
-			
-			montaTabuleiro(tabuleiro, posicoesJogador2, jogadasJogador2, 'O');
+			do{
+				printf("Vez do jogador O: \n");
+				
+				gets(posicoesJogador2[jogadasJogador2]);
+				
+				continuar = montaTabuleiro(tabuleiro, posicoesJogador2, jogadasJogador2, 'O');
+
+				if(continuar == 0){
+					printf("Essa casa já está preenchida, tente novamente\n");
+				}
+			}while(continuar == 0);
 			
 			jogoAcabou = validaJogada(tabuleiro, 'O');
 			
@@ -91,7 +113,11 @@ int main(){
 				printf("O jogador O ganhou!!\n");
 				break;
 			}
-			
+
+			if(jogoAcabou == 0 && jogadas == 8){
+				printf("Deu velha!!\n");
+			}
+
 			jogadasJogador2++;
 		}
 	}
@@ -115,7 +141,4 @@ int main(){
 			printf("%s\n", posicoesJogador2[cont]);
 		}
 	}
-//	for(cont = 0; cont < 3; cont++){
-//		printf("%s\n", tabuleiro[cont]);	
-//	}
 }
